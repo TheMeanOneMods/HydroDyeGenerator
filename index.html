@@ -10,8 +10,9 @@
         font-family: 'Poppins', sans-serif;
         background: #0a0f1a;
         color: #e8f0ff;
-        /* Removed flex centering to prevent pushing layout sideways */
+        display: block;
         min-height: 100vh;
+        text-align: center;
     }
 
     .container {
@@ -100,8 +101,20 @@
     <img src="TheMeanOneDevelopmentsLogo.png" alt="TheMeanOneDevelopments Logo" style="width:180px;margin-bottom:10px;filter:drop-shadow(0 0 8px #00aaff);" />
     <h1 style="color:#6ac6ff;text-shadow:0 0 8px #009dff;">Hydro Dye Generator</h1>
 </header>
-<div class="container">
+<div class="container" style="margin: 0 auto;">
     <h1>Hydro Dye Generator</h1>
+
+    <div class="field-group">
+        <label>Dye Name (Required)</label>
+        <input type="text" id="dyeName" placeholder="Example: modDyeTMO_BlueGlow" />
+    </div>
+
+    <div class="field-group">
+        <label>Paint Needed (Count)</label>
+        <input type="number" id="recipeCount" value="10" min="1" />
+    </div>
+
+    <button onclick="generateXML()">Generate XML</button>
 
     <div class="picker-section">
         <div>
