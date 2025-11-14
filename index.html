@@ -98,6 +98,10 @@
 </style>
 </head>
 <body>
+  <header style="text-align:center;margin-bottom:25px;">
+    <img src="TheMeanOneDevelopmentsLogo.png" alt="TheMeanOneDevelopments Logo" style="width:180px;margin-bottom:10px;filter:drop-shadow(0 0 8px #00aaff);" />
+    <h1 style="color:#6ac6ff;text-shadow:0 0 8px #009dff;">Hydro Dye Generator</h1>
+  </header>
 <div class="container">
     <h1>Hydro Dye Generator</h1>
 
@@ -174,7 +178,10 @@ function generateXML() {
     let b = bIn.value || 0;
 
     let name = document.getElementById("dyeName").value.trim();
-    if (!name) name = autoName(r, g, b);
+    if (!name) {
+        alert("You must enter a Dye Name before generating XML.");
+        return;
+    }
 
     let count = document.getElementById("recipeCount").value;
 
@@ -201,5 +208,16 @@ function generateXML() {
     document.getElementById("output").value = xml;
 }
 </script>
+  <footer style="margin-top:40px;text-align:center;color:#7fbfff;padding:20px 0;font-size:0.9rem;opacity:0.9;">
+    <div style="margin-bottom:10px;">
+      <a href="https://discord.gg/g2TyHtgPKm" target="_blank" style="margin-right:15px;color:#6ac6ff;text-decoration:none;">💬 Join Support Discord</a>
+      <a href="https://ko-fi.com/themeanonedevelopments" target="_blank" style="color:#6ac6ff;text-decoration:none;">☕ Support on Ko-fi</a>
+    </div>
+    <p>
+      © 2025 <strong>TheMeanOneDevelopments</strong> — All Rights Reserved.<br />
+      “Hydro,” “Hydro Utilities,” and related marks are part of
+      <strong>TheMeanOneDevelopments Brand Network</strong>.
+    </p>
+  </footer>
 </body>
 </html>
