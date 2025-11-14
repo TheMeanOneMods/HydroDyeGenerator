@@ -120,19 +120,15 @@
     </div>
 
     <div class="field-group">
-        <label>Dye Name (Auto or Custom)</label>
-        <input type="text" id="dyeName" placeholder="Example: modDyeSkyBlue" />
+        <label>Item Modifier XML</label>
+        <textarea id="outputModifier"></textarea>
+        <button onclick="copyText('outputModifier')">Copy Item Modifier</button>
     </div>
 
     <div class="field-group">
-        <label>Paint Needed to Craft Dye</label>
-        <input type="number" id="recipeCount" value="10" min="1" />
-    </div>
-
-    <button onclick="generateXML()">Generate XML</button>
-
-    <div class="field-group">
-        <textarea id="output"></textarea>
+        <label>Recipe XML</label>
+        <textarea id="outputRecipe"></textarea>
+        <button onclick="copyText('outputRecipe')">Copy Recipe</button>
     </div>
 </div>
 
@@ -173,6 +169,46 @@ function generateXML() {
     let b = bIn.value || 0;
 
     let name = document.getElementById("dyeName").value.trim();
+    if (!name) {
+        alert("You must enter a Dye Name before generating XML.");
+        return;
+    }
+
+    let count = document.getElementById("recipeCount").value;
+
+    const modifier = `    <item_modifier name="${name}" installable_tags="clothing,armor,weapon,tool,vehicle,drone" modifier_tags="dye" type="attachment" cosmetic_install_chance=".16">
+        <property name="Extends" value="modGeneralMaster"/>
+        <property name="DescriptionKey" value="modDyeGroupDesc"/>
+        <property name="CustomIcon" value="modDyeWhite"/>
+        <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
+        <property name="Material" value="Mpaint"/>
+        <property name="Weight" value="20"/>
+        <property name="EconomicValue" value="50"/>
+        <property name="SoundPickup" value="dye_grab"/>
+        <property name="SoundPlace" value="dye_place"/>
+        <item_property_overrides name="*">
+            <property name="TintColor" value="${r}, ${g}, ${b}"/>
+            <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
+        </item_property_overrides>
+    </item_modifier>`;
+
+    const recipe = `<recipe name="${name}" count="1">
+        <ingredient name="resourcePaint" count="${count}" />
+    </recipe>`;
+
+    document.getElementById("outputModifier").value = modifier;
+    document.getElementById("outputRecipe").value = recipe;
+}
+
+function copyText(id) {
+    let text = document.getElementById(id);
+    text.select();
+    text.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(text.value);
+    alert("Copied!");
+}
+
+document.getElementById("dyeName").value.trim();
     if (!name) {
         alert("You must enter a Dye Name before generating XML.");
         return;
