@@ -101,7 +101,7 @@
   <header style="text-align:center;margin-bottom:25px;">
     <img src="TheMeanOneDevelopmentsLogo.png" alt="TheMeanOneDevelopments Logo" style="width:180px;margin-bottom:10px;filter:drop-shadow(0 0 8px #00aaff);" />
     <h1 style="color:#6ac6ff;text-shadow:0 0 8px #009dff;">Hydro Dye Generator</h1>
-  </header>
+</header>
 <div class="container">
     <h1>Hydro Dye Generator</h1>
 
@@ -141,11 +141,6 @@ function toHex(n) {
     return n.toString(16).padStart(2, '0');
 }
 
-function autoName(r, g, b) {
-    const names = ["Crimson", "Cobalt", "Amber", "Viridian", "Nimbus", "Glacial", "Volt", "Abyss", "Coral", "Spectral", "Solar", "Mystic", "HydroBlue"];
-    const base = names[Math.floor(Math.random() * names.length)];
-    return `modDye${base}`;
-}
 
 const picker = document.getElementById("colorPicker");
 const rIn = document.getElementById("rVal");
@@ -181,6 +176,7 @@ function generateXML() {
     if (!name) {
         alert("You must enter a Dye Name before generating XML.");
         return;
+    }
     }
 
     let count = document.getElementById("recipeCount").value;
