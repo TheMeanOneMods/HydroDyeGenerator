@@ -116,10 +116,10 @@
 
     <button onclick="generateXML()">Generate XML</button>
 
-    <div class="picker-section">
+    <div class="picker-section" style="margin-top:20px;">
         <div>
             <label>Pick Color:</label>
-            <input type="color" id="colorPicker" />
+            <input type="color" id="colorPicker" style="width:70px;height:40px;" />
         </div>
         <div>
             <label>R, G, B</label>
@@ -131,7 +131,7 @@
     </div>
 
     <div class="field-group">
-        <label>Item Modifier XML</label>
+        <label>Item Modifier XML</label></label>
         <textarea id="outputModifier"></textarea>
         <button onclick="copyText('outputModifier')">Copy Item Modifier</button>
     </div>
@@ -148,7 +148,6 @@ function toHex(n) {
     return n.toString(16).padStart(2, '0');
 }
 
-
 const picker = document.getElementById("colorPicker");
 const rIn = document.getElementById("rVal");
 const gIn = document.getElementById("gVal");
@@ -160,6 +159,7 @@ picker.addEventListener("input", e => {
     let r = parseInt(hex.substr(1, 2), 16);
     let g = parseInt(hex.substr(3, 2), 16);
     let b = parseInt(hex.substr(5, 2), 16);
+
     rIn.value = r;
     gIn.value = g;
     bIn.value = b;
@@ -170,8 +170,9 @@ picker.addEventListener("input", e => {
     let r = parseInt(rIn.value) || 0;
     let g = parseInt(gIn.value) || 0;
     let b = parseInt(bIn.value) || 0;
-    preview.style.background = `rgb(${r}, ${g}, ${b})`;
+
     picker.value = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    preview.style.background = `rgb(${r}, ${g}, ${b})`;
 }));
 
 function generateXML() {
@@ -187,7 +188,7 @@ function generateXML() {
 
     let count = document.getElementById("recipeCount").value;
 
-    const modifier = `    <item_modifier name="${name}" installable_tags="clothing,armor,weapon,tool,vehicle,drone" modifier_tags="dye" type="attachment" cosmetic_install_chance=".16">
+    const modifier = `<item_modifier name="${name}" installable_tags="clothing,armor,weapon,tool,vehicle,drone" modifier_tags="dye" type="attachment" cosmetic_install_chance=".16">
         <property name="Extends" value="modGeneralMaster"/>
         <property name="DescriptionKey" value="modDyeGroupDesc"/>
         <property name="CustomIcon" value="modDyeWhite"/>
@@ -212,43 +213,8 @@ function generateXML() {
 }
 
 function copyText(id) {
-    let text = document.getElementById(id);
-    text.select();
-    text.setSelectionRange(0, 99999);
+    const text = document.getElementById(id);
     navigator.clipboard.writeText(text.value);
-    alert("Copied!");
-}
-
-document.getElementById("dyeName").value.trim();
-    if (!name) {
-        alert("You must enter a Dye Name before generating XML.");
-        return;
-    }
-    }
-
-    let count = document.getElementById("recipeCount").value;
-
-    const xml = `    <item_modifier name="${name}" installable_tags="clothing,armor,weapon,tool,vehicle,drone" modifier_tags="dye" type="attachment" cosmetic_install_chance=".16">
-        <property name="Extends" value="modGeneralMaster"/>
-        <property name="DescriptionKey" value="modDyeGroupDesc"/>
-        <property name="CustomIcon" value="modDyeWhite"/>
-        <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
-        <property name="Material" value="Mpaint"/>
-        <property name="Weight" value="20"/>
-        <property name="EconomicValue" value="50"/>
-        <property name="SoundPickup" value="dye_grab"/>
-        <property name="SoundPlace" value="dye_place"/>
-        <item_property_overrides name="*">
-            <property name="TintColor" value="${r}, ${g}, ${b}"/>
-            <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
-        </item_property_overrides>
-    </item_modifier>
-
-    <recipe name="${name}" count="1">
-        <ingredient name="resourcePaint" count="${count}" />
-    </recipe>`;
-
-    document.getElementById("output").value = xml;
 }
 </script>
   <footer style="margin-top:40px;text-align:center;color:#7fbfff;padding:20px 0;font-size:0.9rem;opacity:0.9;">
