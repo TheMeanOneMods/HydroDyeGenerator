@@ -101,8 +101,8 @@
     <img src="TheMeanOneDevelopmentsLogo.png" alt="TheMeanOneDevelopments Logo" style="width:180px;margin-bottom:10px;filter:drop-shadow(0 0 8px #00aaff);" />
     <h1 style="color:#6ac6ff;text-shadow:0 0 8px #009dff;">Hydro Dye Generator</h1>
 </header>
-<div class="container" style="margin: 0 auto;">
-    <h1>Hydro Dye Generator</h1>
+<div class="container" style="margin:0 auto; padding:30px; border-radius:20px; background:rgba(0,20,40,0.8); box-shadow:0 0 25px rgba(0,200,255,0.4), inset 0 0 25px rgba(0,200,255,0.2); backdrop-filter:blur(8px);">
+    
 
     <div class="field-group">
         <label>Dye Name (Required)</label>
@@ -114,9 +114,9 @@
         <input type="number" id="recipeCount" value="10" min="1" />
     </div>
 
-    <button onclick="generateXML()">Generate XML</button>
+    <button onclick="generateXML()" style="margin-bottom:25px;">Generate XML</button>
 
-    <div class="picker-section" style="margin-top:20px;align-items:flex-start;""margin-top:20px;">
+    <div class="picker-section" style="margin-top:20px; align-items:flex-start;">
         <div>
             <label>Pick Color:</label>
             <input type="color" id="colorPicker" style="width:70px;height:40px;" />
@@ -127,11 +127,11 @@
             <input type="number" id="gVal" min="0" max="255" placeholder="G" />
             <input type="number" id="bVal" min="0" max="255" placeholder="B" />
         </div>
-        <div class="color-preview" id="preview" style="margin-top:22px;margin-left:20px;"></div>
+        <div class="color-preview" id="preview" style="margin-top:22px; margin-left:20px;"></div>
     </div>
 
     <div class="field-group">
-        <label>Item Modifier XML</label></label>
+        <label>Item Modifier XML</label>
         <textarea id="outputModifier"></textarea>
         <button onclick="copyText('outputModifier')">Copy Item Modifier</button>
     </div>
@@ -141,83 +141,24 @@
         <textarea id="outputRecipe"></textarea>
         <button onclick="copyText('outputRecipe')">Copy Recipe</button>
     </div>
+
 </div>
 
-<script>
-function toHex(n) {
-    return n.toString(16).padStart(2, '0');
-}
+<section style="margin:40px auto; max-width:850px; padding:25px; border-radius:20px; background:rgba(0,20,40,0.6); box-shadow:0 0 25px rgba(0,200,255,0.25), inset 0 0 20px rgba(0,200,255,0.15); text-align:center;">
+    <h3 style="color:#6ac6ff; text-shadow:0 0 8px #00c8ff;">💧 About Hydro Brands</h3>
+    <p style="line-height:1.6; color:#b8dcff;">
+      <strong>Hydro</strong> is a global creative project by 
+      <strong>TheMeanOneDevelopments</strong>, dedicated to building innovative experiences for everyday people.
+      We design and develop <strong>mods, plugins, apps, and games</strong> that combine creativity, accessibility, 
+      and performance — crafted by passionate developers who believe technology should be both powerful and fun.
+    </p>
+<div style="margin-top:25px; text-align:center;">
+      <a href="https://themeanonemods.github.io/7D2DLootChecker/" target="_blank" style="display:inline-block; padding:12px 25px; margin:8px; border-radius:14px; background:linear-gradient(90deg,#00e0ff,#00aaff); color:#00121e; font-weight:bold; text-decoration:none; box-shadow:0 0 18px rgba(0,200,255,0.6);">❄️ 7D2D Loot XML Visualizer</a>
+      <a href="https://themeanonemods.github.io/LocalizationColorGenerator/" target="_blank" style="display:inline-block; padding:12px 25px; margin:8px; border-radius:14px; background:linear-gradient(90deg,#c41fff,#7b00ff); color:#f0eaff; font-weight:bold; text-decoration:none; box-shadow:0 0 18px rgba(160,0,255,0.6);">🎨 Localization Color Generator</a>
+    </div>
+</section>
 
-const picker = document.getElementById("colorPicker");
-const rIn = document.getElementById("rVal");
-const gIn = document.getElementById("gVal");
-const bIn = document.getElementById("bVal");
-const preview = document.getElementById("preview");
-
-picker.addEventListener("input", e => {
-    let hex = e.target.value;
-    let r = parseInt(hex.substr(1, 2), 16);
-    let g = parseInt(hex.substr(3, 2), 16);
-    let b = parseInt(hex.substr(5, 2), 16);
-
-    rIn.value = r;
-    gIn.value = g;
-    bIn.value = b;
-    preview.style.background = `rgb(${r}, ${g}, ${b})`;
-});
-
-[rIn, gIn, bIn].forEach(inp => inp.addEventListener("input", () => {
-    let r = parseInt(rIn.value) || 0;
-    let g = parseInt(gIn.value) || 0;
-    let b = parseInt(bIn.value) || 0;
-
-    picker.value = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-    preview.style.background = `rgb(${r}, ${g}, ${b})`;
-}));
-
-function generateXML() {
-    let r = rIn.value || 0;
-    let g = gIn.value || 0;
-    let b = bIn.value || 0;
-
-    let name = document.getElementById("dyeName").value.trim();
-    if (!name) {
-        alert("You must enter a Dye Name before generating XML.");
-        return;
-    }
-
-    let count = document.getElementById("recipeCount").value;
-
-    const modifier = `<item_modifier name="${name}" installable_tags="clothing,armor,weapon,tool,vehicle,drone" modifier_tags="dye" type="attachment" cosmetic_install_chance=".16">
-        <property name="Extends" value="modGeneralMaster"/>
-        <property name="DescriptionKey" value="modDyeGroupDesc"/>
-        <property name="CustomIcon" value="modDyeWhite"/>
-        <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
-        <property name="Material" value="Mpaint"/>
-        <property name="Weight" value="20"/>
-        <property name="EconomicValue" value="50"/>
-        <property name="SoundPickup" value="dye_grab"/>
-        <property name="SoundPlace" value="dye_place"/>
-        <item_property_overrides name="*">
-            <property name="TintColor" value="${r}, ${g}, ${b}"/>
-            <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
-        </item_property_overrides>
-    </item_modifier>`;
-
-    const recipe = `<recipe name="${name}" count="1">
-        <ingredient name="resourcePaint" count="${count}" />
-    </recipe>`;
-
-    document.getElementById("outputModifier").value = modifier;
-    document.getElementById("outputRecipe").value = recipe;
-}
-
-function copyText(id) {
-    const text = document.getElementById(id);
-    navigator.clipboard.writeText(text.value);
-}
-</script>
-  <footer style="margin-top:40px;text-align:center;color:#7fbfff;padding:20px 0;font-size:0.9rem;opacity:0.9;">
+<footer style="margin-top:40px;text-align:center;color:#7fbfff;padding:20px 0;font-size:0.9rem;opacity:0.9;">
     <div style="margin-bottom:10px;">
       <a href="https://discord.gg/g2TyHtgPKm" target="_blank" style="margin-right:15px;color:#6ac6ff;text-decoration:none;">💬 Join Support Discord</a>
       <a href="https://ko-fi.com/themeanonedevelopments" target="_blank" style="color:#6ac6ff;text-decoration:none;">☕ Support on Ko-fi</a>
@@ -227,6 +168,62 @@ function copyText(id) {
       “Hydro,” “Hydro Utilities,” and related marks are part of
       <strong>TheMeanOneDevelopments Brand Network</strong>.
     </p>
-  </footer>
+<script>
+function toHex(n){return n.toString(16).padStart(2,'0');}
+const picker=document.getElementById('colorPicker');
+const rIn=document.getElementById('rVal');
+const gIn=document.getElementById('gVal');
+const bIn=document.getElementById('bVal');
+const preview=document.getElementById('preview');
+
+picker.addEventListener('input',e=>{
+ let hex=e.target.value;
+ let r=parseInt(hex.substr(1,2),16);
+ let g=parseInt(hex.substr(3,2),16);
+ let b=parseInt(hex.substr(5,2),16);
+ rIn.value=r; gIn.value=g; bIn.value=b;
+ preview.style.background=`rgb(${r},${g},${b})`;
+});
+
+[rIn,gIn,bIn].forEach(inp=>inp.addEventListener('input',()=>{
+ let r=parseInt(rIn.value)||0;
+ let g=parseInt(gIn.value)||0;
+ let b=parseInt(bIn.value)||0;
+ picker.value=`#${toHex(r)}${toHex(g)}${toHex(b)}`;
+ preview.style.background=`rgb(${r},${g},${b})`;
+}));
+
+function generateXML(){
+ let r=rIn.value||0;
+ let g=gIn.value||0;
+ let b=bIn.value||0;
+ let name=document.getElementById('dyeName').value.trim();
+ if(!name){alert('You must enter a Dye Name before generating XML.');return;}
+ let count=document.getElementById('recipeCount').value;
+ const modifier=`<item_modifier name="${name}" installable_tags="clothing,armor,weapon,tool,vehicle,drone" modifier_tags="dye" type="attachment" cosmetic_install_chance=".16">
+ <property name="Extends" value="modGeneralMaster"/>
+ <property name="DescriptionKey" value="modDyeGroupDesc"/>
+ <property name="CustomIcon" value="modDyeWhite"/>
+ <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
+ <property name="Material" value="Mpaint"/>
+ <property name="Weight" value="20"/>
+ <property name="EconomicValue" value="50"/>
+ <property name="SoundPickup" value="dye_grab"/>
+ <property name="SoundPlace" value="dye_place"/>
+ <item_property_overrides name="*">
+ <property name="TintColor" value="${r}, ${g}, ${b}"/>
+ <property name="CustomIconTint" value="${r}, ${g}, ${b}"/>
+ </item_property_overrides>
+ </item_modifier>`;
+ const recipe=`<recipe name="${name}" count="1">
+ <ingredient name="resourcePaint" count="${count}" />
+ </recipe>`;
+ document.getElementById('outputModifier').value=modifier;
+ document.getElementById('outputRecipe').value=recipe;
+}
+
+function copyText(id){navigator.clipboard.writeText(document.getElementById(id).value);}
+</script>
+</footer>
 </body>
 </html>
